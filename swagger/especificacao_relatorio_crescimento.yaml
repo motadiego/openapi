@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: Especificação relatório de desempenho de crescimento da criança
+  description: Especificação relatório de desempenho de crescimento da criança
+  contact:
+    email: diegoalves123@gmail.com
+  version: 1.0.0
+servers:
+- url: /
+security:
+- application:
+  - read
+  - write
+paths:
+  /accounts/{email}/progress:
+    get:
+      summary: Recuperar progresso de crescimento das crianças pelo email da conta
+        de usuário
+      parameters:
+      - name: email
+        in: path
+        description: email de identificação da conta do usuário
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: token
+        in: header
+        description: Token JWT no header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            format: string
+        example: ijMqSfD6+grE5PhMqz0cWcUU1+h+OZ7lbaFPRX2ym1bqCEe/1Fvjbq1paWSW80fip723tL+E1m0r7vLjdwMabcn7wAfUS6TSgj2qA5yF2YA++L/lEFnPDrFAF/rOt36q2Emi6ABf0fn21SE6zKIGX6PjGK+j7wkb9GayN4KUYynHclvIpL9TWXxRLsMEww9t8H8TMOfLaYo/aJtS/5cNMOlFCodf85WRlyAwUEfnwiXDbng1SoGmos8RR8njyLOoi8JCostvlOobdjpt34hgrhDSs/CyS91nUHbOU6hnxiQWkfuT5+cV/feN3gWd6BGs3Yxmxhkcg0iaYaJUNF5U1c8zzG/yqmHsk/evvN3MQM6S9BKyE4kP8rHoeK0rAQJzeQe9hwlCMpy+lB4WAcrwv04y7hrGyBOJOj5nDeRS8ruvJdtIrPqRz7lOEODuQ5MafbLfw9OT/+lml7dyfRwZkjuaoql9qYcGqkf+n2XBYkBVrQrmbwBVEF2VrdaDVVGjyPKwvOKUFzu8ao+ut6vlOdtvtDN152NSiiewubtMJWelxamppaYVLWlYIT2eTnasuKuyrw0Z4tLttktq2p0hkCRqjTeC5zWC7EIqN/p7gYU+vBRC3OhVS2FrTWaM+5upZvrbNPLLUgZhOgIogbGDUklJ7Z7zUpXpVKrJ+8LSgCxeRoiKPNWSCbU8PxJIGd/zOFHh4Rzp4GHNGfThDYgjkK80y3ct4R4hjR/aiho9k/g=
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_response'
+        "400":
+          description: Dados do request enviados incorretos
+        "401":
+          description: "Token inválido, inexixtente ou expirado"
+        "404":
+          description: "Recurso {email} não encontado"
+        "500":
+          description: Erro no servidor
+components:
+  schemas:
+    body_response:
+      required:
+      - dateProgress
+      - headCircumference
+      - height
+      - weight
+      type: object
+      properties:
+        height:
+          type: number
+        weight:
+          type: number
+          example: 45
+        headCircumference:
+          type: number
+        dateProgress:
+          type: string
+          format: date
