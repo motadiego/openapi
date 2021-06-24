@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: Especificação Autenticação de Usuário
+  description: Especificação Autenticação de Usuário
+  contact:
+    email: diegoalves123@gmail.com
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /login:
+    post:
+      summary: Login do usuário
+      requestBody:
+        description: Informações do usuário
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_request'
+        required: true
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_response'
+        "400":
+          description: Dados do request enviados incorretos
+        "401":
+          description: Password incorreto
+        "404":
+          description: Usuário não encontrado
+        "500":
+          description: Erro no servidor
+components:
+  schemas:
+    body_request:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          minimum: 1
+          type: string
+          format: email
+          example: admin
+        password:
+          minimum: 1
+          type: string
+          format: password
+          example: "123"
+    body_response:
+      required:
+      - email
+      - firstName
+      - id
+      - lastName
+      - token
+      type: object
+      properties:
+        token:
+          type: string
+          example: ijMqSfD6+grE5PhMqz0cWcUU1+h+OZ7lbaFPRX2ym1bqCEe/1Fvjbq1paWSW80fip723tL+E1m0r7vLjdwMabcn7wAfUS6TSgj2qA5yF2YA++L/lEFnPDrFAF/rOt36q2Emi6ABf0fn21SE6zKIGX6PjGK+j7wkb9GayN4KUYynHclvIpL9TWXxRLsMEww9t8H8TMOfLaYo/aJtS/5cNMOlFCodf85WRlyAwUEfnwiXDbng1SoGmos8RR8njyLOoi8JCostvlOobdjpt34hgrhDSs/CyS91nUHbOU6hnxiQWkfuT5+cV/feN3gWd6BGs3Yxmxhkcg0iaYaJUNF5U1c8zzG/yqmHsk/evvN3MQM6S9BKyE4kP8rHoeK0rAQJzeQe9hwlCMpy+lB4WAcrwv04y7hrGyBOJOj5nDeRS8ruvJdtIrPqRz7lOEODuQ5MafbLfw9OT/+lml7dyfRwZkjuaoql9qYcGqkf+n2XBYkBVrQrmbwBVEF2VrdaDVVGjyPKwvOKUFzu8ao+ut6vlOdtvtDN152NSiiewubtMJWelxamppaYVLWlYIT2eTnasuKuyrw0Z4tLttktq2p0hkCRqjTeC5zWC7EIqN/p7gYU+vBRC3OhVS2FrTWaM+5upZvrbNPLLUgZhOgIogbGDUklJ7Z7zUpXpVKrJ+8LSgCxeRoiKPNWSCbU8PxJIGd/zOFHh4Rzp4GHNGfThDYgjkK80y3ct4R4hjR/aiho9k/g=
+        account:
+          type: string
+          example: "{\"id\":1,\"email\":\"admin@admin.com\",\"firstName\":\"First\"\
+            ,\"lastName\":\"Last\"}"
